@@ -1,0 +1,33 @@
+{
+  "name": "phasmoguide",
+  "version": "0.1.0",
+  "description": "A Phasmophobia companion app: ghost reference, gameplay timers, and a footstep-tempo speed tool.",
+  "main": "electron/main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "scrape": "node scripts/scrape-ghosts.js",
+    "scrape:maps": "node scripts/scrape-maps.js",
+    "build": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^32.0.0",
+    "electron-builder": "^25.0.0"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.123.0",
+    "cheerio": "^1.0.0"
+  },
+  "build": {
+    "appId": "com.phasmoguide.app",
+    "productName": "PhasmoGuide",
+    "files": [
+      "app/**/*",
+      "electron/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "electron/icon.ico"
+    }
+  }
+}

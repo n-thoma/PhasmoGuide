@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhasmoGuide</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="theme-fx" aria-hidden="true">
+    <div class="firefly-field">
+      <div class="firefly"></div>
+      <div class="firefly"></div>
+      <div class="firefly"></div>
+      <div class="firefly"></div>
+      <div class="firefly"></div>
+      <div class="firefly"></div>
+      <div class="firefly"></div>
+      <div class="firefly"></div>
+      <div class="firefly"></div>
+      <div class="firefly"></div>
+      <div class="firefly"></div>
+      <div class="firefly"></div>
+    </div>
+    <div class="snow-field">
+      <div class="snowflake">❄</div>
+      <div class="snowflake">❅</div>
+      <div class="snowflake">❄</div>
+      <div class="snowflake">❆</div>
+      <div class="snowflake">❄</div>
+      <div class="snowflake">❅</div>
+      <div class="snowflake">❄</div>
+      <div class="snowflake">❆</div>
+      <div class="snowflake">❄</div>
+      <div class="snowflake">❅</div>
+      <div class="snowflake">❄</div>
+      <div class="snowflake">❆</div>
+      <div class="snowflake">❄</div>
+      <div class="snowflake">❅</div>
+      <div class="snowflake">❄</div>
+      <div class="snowflake">❆</div>
+      <div class="snowflake">❄</div>
+      <div class="snowflake">❅</div>
+    </div>
+    <div class="halloween-fx">
+      <div class="blood-moon"></div>
+      <div class="fog-layer fog-layer-1"></div>
+      <div class="fog-layer fog-layer-2"></div>
+      <div class="bat-field">
+        <span class="bat">🦇</span>
+        <span class="bat">🦇</span>
+        <span class="bat">🦇</span>
+        <span class="bat">🦇</span>
+        <span class="bat">🦇</span>
+      </div>
+    </div>
+  </div>
+
+  <header class="app-header">
+    <h1>PhasmoGuide</h1>
+    <nav class="tabs" role="tablist">
+      <button class="tab-btn active" data-tab="ghosts" role="tab" aria-selected="true">Ghosts</button>
+      <button class="tab-btn" data-tab="maps" role="tab" aria-selected="false">Maps</button>
+      <button class="tab-btn" data-tab="timers" role="tab" aria-selected="false">Timers</button>
+      <button class="tab-btn" data-tab="footsteps" role="tab" aria-selected="false">Footsteps</button>
+      <button class="tab-btn" data-tab="strategies" role="tab" aria-selected="false">Strategies</button>
+      <button class="tab-btn" data-tab="jerry" role="tab" aria-selected="false">Jerry</button>
+    </nav>
+    <div class="theme-switcher" role="group" aria-label="Theme">
+      <button type="button" class="theme-btn" data-theme-choice="auto">🗓️ Auto</button>
+      <button type="button" class="theme-btn" data-theme-choice="default">Classic</button>
+      <button type="button" class="theme-btn" data-theme-choice="easter">🐰 Easter</button>
+      <button type="button" class="theme-btn" data-theme-choice="halloween">🌕 Halloween</button>
+      <button type="button" class="theme-btn" data-theme-choice="christmas">🎄 Christmas</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="tab-ghosts" class="tab-panel active">
+      <div class="ghosts-layout">
+        <aside class="evidence-panel">
+          <h2>Evidence Found</h2>
+
+          <div class="difficulty-setting">
+            <label for="difficulty-select">Difficulty</label>
+            <select id="difficulty-select">
+              <option value="amateur">Amateur (3 evidence)</option>
+              <option value="intermediate">Intermediate (3 evidence)</option>
+              <option value="professional" selected>Professional (3 evidence)</option>
+              <option value="nightmare">Nightmare (2 evidence)</option>
+              <option value="insanity">Insanity (1 evidence)</option>
+              <option value="apocalypse3">Apocalypse III (0 evidence)</option>
+              <option value="custom">Custom</option>
+            </select>
+            <input
+              id="custom-evidence-count"
+              type="number"
+              min="0"
+              max="3"
+              value="3"
+              placeholder="0-3"
+              hidden
+            />
+          </div>
+          <p id="evidence-count-readout" class="evidence-count-readout"></p>
+
+          <div id="evidence-toggles" class="evidence-toggles"></div>
+          <button id="evidence-clear" class="secondary-btn">Clear Evidence</button>
+
+          <label class="search-label" for="ghost-search">Search by name</label>
+          <input id="ghost-search" type="text" placeholder="e.g. Spirit" />
+        </aside>
+
+        <div class="ghost-list-wrap">
+          <p id="ghost-count" class="ghost-count"></p>
+          <ul id="ghost-list" class="ghost-list"></ul>
+        </div>
+
+        <div id="ghost-detail" class="ghost-detail">
+          <p class="empty-hint">Select a ghost to see details.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-maps" class="tab-panel">
+      <div class="maps-layout">
+        <div class="map-list-wrap">
+          <label class="search-label" for="map-search">Search by name</label>
+          <input id="map-search" type="text" placeholder="e.g. Tanglewood" />
+          <p id="map-count" class="map-count"></p>
+          <ul id="map-list" class="map-list"></ul>
+        </div>
+
+        <div id="map-detail" class="map-detail">
+          <p class="empty-hint">Select a map to see its layout.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-timers" class="tab-panel">
+      <div class="timers-toolbar">
+        <h2>Timers</h2>
+        <form id="custom-timer-form" class="custom-timer-form">
+          <input id="custom-timer-label" type="text" placeholder="Label (e.g. Hiding Spot)" required />
+          <input id="custom-timer-seconds" type="number" min="1" placeholder="Seconds" required />
+          <button type="submit">Add Timer</button>
+        </form>
+      </div>
+      <div id="timer-grid" class="timer-grid"></div>
+    </section>
+
+    <section id="tab-footsteps" class="tab-panel">
+      <div class="footsteps-layout">
+        <div class="footsteps-setting">
+          <label for="ghost-speed-setting">Ghost Speed (Custom Difficulty)</label>
+          <select id="ghost-speed-setting">
+            <option value="0.5">50%</option>
+            <option value="0.75">75%</option>
+            <option value="1" selected>100% (default)</option>
+            <option value="1.25">125%</option>
+            <option value="1.5">150%</option>
+          </select>
+        </div>
+
+        <button id="tap-btn" class="tap-btn">TAP<br /><span>(or press Space)</span></button>
+        <button id="tap-reset" class="secondary-btn">Reset</button>
+
+        <div class="footsteps-readout">
+          <div class="stat">
+            <span class="stat-label">Interval</span>
+            <span id="stat-interval" class="stat-value">--</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Steps / sec</span>
+            <span id="stat-steps" class="stat-value">--</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Estimated Speed</span>
+            <span id="stat-speed" class="stat-value">--</span>
+          </div>
+        </div>
+
+        <div class="footsteps-matches">
+          <h2>Possible Ghosts</h2>
+          <ul id="footsteps-matches-list"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-strategies" class="tab-panel">
+      <div class="strategies-layout">
+        <div class="strategy-list-wrap">
+          <label class="search-label" for="strategy-search">Search by name</label>
+          <input id="strategy-search" type="text" placeholder="e.g. Spirit" />
+          <ul id="strategy-list" class="strategy-list"></ul>
+        </div>
+
+        <div id="strategy-detail" class="strategy-detail">
+          <p class="empty-hint">Select a ghost to see how to identify it.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-jerry" class="tab-panel">
+      <div class="jerry-layout">
+        <div id="jerry-key-bar" class="jerry-key-bar">
+          <div class="jerry-key-row">
+            <label for="jerry-api-key">Anthropic API Key</label>
+            <input id="jerry-api-key" type="password" placeholder="sk-ant-..." autocomplete="off" spellcheck="false" />
+            <button id="jerry-key-save" class="secondary-btn" type="button">Save Key</button>
+            <button id="jerry-key-clear" class="secondary-btn" type="button" hidden>Clear Key</button>
+            <span id="jerry-key-status" class="jerry-key-status"></span>
+          </div>
+          <div class="jerry-key-row jerry-key-row-secondary">
+            <label for="jerry-workspace-id">Workspace ID <span class="jerry-key-optional">(only needed for some keys)</span></label>
+            <input id="jerry-workspace-id" type="text" placeholder="wrkspc_... (optional)" autocomplete="off" spellcheck="false" />
+          </div>
+        </div>
+
+        <div class="jerry-chat-wrap">
+          <div id="jerry-messages" class="jerry-messages"></div>
+          <form id="jerry-form" class="jerry-form">
+            <input id="jerry-input" type="text" placeholder="Ask Jerry about a ghost..." autocomplete="off" />
+            <button type="submit">Send</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="data/ghosts-data.js"></script>
+  <script src="data/strategies-data.js"></script>
+  <script src="data/maps-data.js"></script>
+  <script src="js/ghosts.js"></script>
+  <script src="js/maps.js"></script>
+  <script src="js/timers.js"></script>
+  <script src="js/footsteps.js"></script>
+  <script src="js/strategies.js"></script>
+  <script src="js/jerry.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
