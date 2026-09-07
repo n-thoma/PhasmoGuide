@@ -178,10 +178,10 @@ window.PhasmoGhosts = (function () {
 
   // ---- Footstep audio preview ----
   // Approximates in-game footstep cadence for a given ghost speed so players
-  // can compare it by ear against what they're hearing on a hunt. Uses the
-  // same stride-length assumption as the Footsteps tab's tap tool, so a
-  // played tempo and a tapped-out speed reading line up.
-  const FOOTSTEP_STRIDE_METERS = 0.7;
+  // can compare it by ear against what they're hearing on a hunt. Must match
+  // the Footsteps tab's STRIDE_METERS exactly, so a played tempo (BPM) and a
+  // tapped-out speed reading agree for the same ghost speed.
+  const FOOTSTEP_STRIDE_METERS = 0.872;
   const FOOTSTEP_LOOP_STEPS = 8;
   let audioCtx;
   let activeFootstepLoop = null; // { intervalId, btnEl }
