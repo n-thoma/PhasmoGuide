@@ -2,10 +2,10 @@
 // ghost's movement speed, then shortlist ghosts whose known speed matches.
 window.PhasmoFootsteps = (function () {
   // Distance (in meters) assumed to pass between each footstep sound cue.
-  // This is a rough calibration constant, not a value taken from the game's
-  // files — adjust it here if measured speeds consistently read high/low
-  // compared to a ghost's known speed.
-  const STRIDE_METERS = 0.7;
+  // Calibrated so a ghost at the base 1.7 m/s speed produces ~117 BPM of
+  // footstep cues (1.7 * 60 / 0.872 ≈ 117.0 BPM). Adjust here if measured
+  // speeds consistently read high/low compared to a ghost's known speed.
+  const STRIDE_METERS = 0.872;
 
   // How many of the most recent taps to average over.
   const MAX_TAPS = 8;
@@ -25,7 +25,7 @@ window.PhasmoFootsteps = (function () {
   // accordingly if this setting is changed"). Selectable values per the
   // Difficulty page's settings table: 50/75/100/125/150.
   let speedMultiplier = 1;
-  let tapBtn, resetBtn, intervalEl, stepsEl, speedEl, matchesListEl, speedSettingEl;
+  let tapBtn, resetBtn, intervalEl, stepsEl, bpmEl, speedEl, matchesListEl, speedSettingEl;
 
   function averageIntervalMs() {
     if (taps.length < 2) return null;
@@ -79,15 +79,18 @@ window.PhasmoFootsteps = (function () {
     if (avgMs == null) {
       intervalEl.textContent = "--";
       stepsEl.textContent = "--";
+      bpmEl.textContent = "--";
       speedEl.textContent = "--";
       matchesListEl.innerHTML = "<li>Tap along with footsteps to begin.</li>";
       return;
     }
     const stepsPerSec = 1000 / avgMs;
+    const bpm = stepsPerSec * 60;
     const speedMps = STRIDE_METERS * stepsPerSec;
 
     intervalEl.textContent = `${avgMs.toFixed(0)} ms`;
     stepsEl.textContent = stepsPerSec.toFixed(2);
+    bpmEl.textContent = bpm.toFixed(1);
     speedEl.textContent = `${speedMps.toFixed(2)} m/s`;
     renderMatches(speedMps);
   }
@@ -113,6 +116,7 @@ window.PhasmoFootsteps = (function () {
     resetBtn = document.getElementById("tap-reset");
     intervalEl = document.getElementById("stat-interval");
     stepsEl = document.getElementById("stat-steps");
+    bpmEl = document.getElementById("stat-bpm");
     speedEl = document.getElementById("stat-speed");
     matchesListEl = document.getElementById("footsteps-matches-list");
     speedSettingEl = document.getElementById("ghost-speed-setting");
