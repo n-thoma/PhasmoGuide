@@ -206,7 +206,9 @@ window.PhasmoMaps = (function () {
     const cards = mapEntry.cursedPossessions
       .map(
         (c) => `
-        <figure class="cursed-possession-card">
+        <figure class="cursed-possession-card" data-expandable="true" data-image-url="${escapeHtml(
+          c.imageUrl
+        )}" data-image-alt="${escapeHtml(c.description)}" tabindex="0" role="button" aria-label="Expand photo">
           <img src="${escapeHtml(c.imageUrl)}" alt="${escapeHtml(c.description)}" loading="lazy">
           <figcaption>
             ${c.item ? `<strong>${escapeHtml(c.item)}</strong>` : ""}
@@ -220,6 +222,38 @@ window.PhasmoMaps = (function () {
         <span class="section-title">Cursed Possession Locations</span>
         <div class="cursed-possession-grid">${cards}</div>
       </div>`;
+  }
+
+  let lightboxEl, lightboxImgEl;
+
+  function openLightbox(imageUrl, altText) {
+    if (!lightboxEl) return;
+    lightboxImgEl.src = imageUrl;
+    lightboxImgEl.alt = altText;
+    lightboxEl.classList.add("open");
+  }
+
+  function closeLightbox() {
+    if (!lightboxEl) return;
+    lightboxEl.classList.remove("open");
+    lightboxImgEl.src = "";
+  }
+
+  function ensureLightbox() {
+    if (lightboxEl) return;
+    lightboxEl = document.createElement("div");
+    lightboxEl.className = "cursed-lightbox";
+    lightboxEl.innerHTML = `
+      <button type="button" class="cursed-lightbox-close" aria-label="Close">✕</button>
+      <img class="cursed-lightbox-img" alt="">`;
+    document.body.appendChild(lightboxEl);
+    lightboxImgEl = lightboxEl.querySelector(".cursed-lightbox-img");
+    lightboxEl.addEventListener("click", (e) => {
+      if (e.target === lightboxEl || e.target.closest(".cursed-lightbox-close")) closeLightbox();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeLightbox();
+    });
   }
 
   function renderDetail(mapEntry) {
@@ -249,6 +283,16 @@ window.PhasmoMaps = (function () {
         renderDetail(mapEntry);
       });
     });
+    detailEl.querySelectorAll("[data-expandable]").forEach((card) => {
+      const open = () => openLightbox(card.getAttribute("data-image-url"), card.getAttribute("data-image-alt"));
+      card.addEventListener("click", open);
+      card.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          open();
+        }
+      });
+    });
   }
 
   function init() {
@@ -257,6 +301,7 @@ window.PhasmoMaps = (function () {
     searchInputEl = document.getElementById("map-search");
     countEl = document.getElementById("map-count");
 
+    ensureLightbox();
     renderList();
 
     searchInputEl.addEventListener("input", (e) => {

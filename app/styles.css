@@ -1562,6 +1562,69 @@ button {
   box-shadow: 0 0 14px -4px var(--glow-green-shadow);
 }
 
+.cursed-possession-card[data-expandable] {
+  cursor: zoom-in;
+}
+
+.cursed-lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.85);
+  padding: 2rem;
+}
+
+.cursed-lightbox.open {
+  display: flex;
+  animation: cursed-lightbox-fade-in 0.18s ease-out;
+}
+
+.cursed-lightbox-img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 8px;
+  box-shadow: 0 0 30px -6px var(--accent-glow);
+  animation: cursed-lightbox-grow-in 0.18s ease-out;
+}
+
+@keyframes cursed-lightbox-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes cursed-lightbox-grow-in {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.cursed-lightbox-close {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.4rem;
+  background: var(--bg-panel-raised);
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.cursed-lightbox-close:hover {
+  border-color: var(--accent);
+  color: var(--accent-hover);
+}
+
 .cursed-possession-card img {
   display: block;
   width: 100%;
